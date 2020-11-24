@@ -264,6 +264,8 @@ public class Consumer extends Thread {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Failed to write message " + parsedMessage, e);
                     }
+                    // shouldn't mute the exception but do a force upload of current available data, so the next run will be successful
+                    checkUploadPolicy(true);
                     throw new RuntimeException("Failed to write message " + parsedMessage.toTruncatedString(), e);
                 }
                 if (mDeterministicUploadPolicyTracker != null) {
